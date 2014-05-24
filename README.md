@@ -3,7 +3,7 @@
 
 ## Description
 
-This is a fork of kdelemme's blogjs project. [https://github.com/kdelemme/blogjs]https://github.com/kdelemme/blogjs
+This is a fork of kdelemme's blogjs project. [https://github.com/kdelemme/blogjs](https://github.com/kdelemme/blogjs)
 
 BlogJS is a simple blog application built with AngularJS, Node.js and MongoDB. Creates your article and shares them in a beautiful minimalistic template.
 
@@ -30,9 +30,9 @@ You need `mongodb-2.4.10` up and running on port `27017`
 
 ## Installation
 
-Clone this repository with: `kevin@home:/$ git clone https://github.com/gkurts/blogjs.git`
+Clone this repository with: `git clone https://github.com/gkurts/blogjs.git`
 
-Clone the original repository with: `kevin@home:/$ git clone https://github.com/kdelemme/blogjs.git`
+Clone the original repository with: `git clone https://github.com/kdelemme/blogjs.git`
 
 ### Start Redis
 
