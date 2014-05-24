@@ -28,9 +28,22 @@ exports.signin = function(req, res) {
 				return res.send(401);
             }
 
-			var token = jwt.sign({id: user._id}, secret.secretToken, { expiresInMinutes: tokenManager.TOKEN_EXPIRATION });
-			
-			return res.json({token:token});
+            var token;
+            //check for an existing token in redis
+            tokenManager.getToken(user._id, function(reply){
+            	console.log('Found token: ' + reply);
+            	if (reply == null){
+					token = jwt.sign({id: user._id, username: user.username}, secret.secretToken);
+		            tokenManager.stashToken(user.id, token);
+            	}
+            	else {
+            		token = reply;
+            	}
+            	
+	            console.log('login complete ' + token);
+	            return res.json({token: token});
+            });
+
 		});
 
 	});

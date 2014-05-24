@@ -4,31 +4,48 @@ var TOKEN_EXPIRATION_SEC = TOKEN_EXPIRATION * 60;
 
 // Middleware for token verification
 exports.verifyToken = function (req, res, next) {
-	var token = getToken(req.headers);
-
-	redisClient.get(token, function (err, reply) {
+	redisClient.get(req.user.id, function (err, reply) {
 		if (err) {
 			console.log(err);
 			return res.send(500);
 		}
 
-		if (reply) {
+		if (!reply) {
+
 			res.send(401);
 		}
+
 		else {
-			next();
+			var incomingToken = getToken(req.headers)
+			if (incomingToken != reply){
+				res.send(401);
+			}
+			else {
+				next();
+			}
 		}
 
 	});
 };
 
+exports.getToken = function(userid, next){
+	redisClient.get(userid, function (err, reply){
+		if (err){
+			console.log(err);
+			return res.send(500);
+		}
+
+		next(reply);
+	});
+};
+
+exports.stashToken = function(userid, token){
+	redisClient.set(userid, token);
+};
+
 exports.expireToken = function(headers) {
-	var token = getToken(headers);
-	
-	if (token != null) {
-		redisClient.set(token, { is_expired: true });
-    	redisClient.expire(token, TOKEN_EXPIRATION_SEC);
-	}
+	redisClient.set(header.user.id, { is_expired: true });
+   	redisClient.expire(header.user.id, 0);
 };
 
 var getToken = function(headers) {

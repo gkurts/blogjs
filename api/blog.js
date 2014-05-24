@@ -25,13 +25,11 @@ app.all('*', function(req, res, next) {
   next();
 });
 
+app.use('/', express.static('../app'))
+
 //Get all published post
 app.get('/post', routes.posts.list);
 
-
-
-//Get the post id
-app.get('/post/:id', routes.posts.read); 
 
 //Like the post id
 app.post('/post/like', routes.posts.like);
@@ -53,6 +51,9 @@ app.get('/user/logout', jwt({secret: secret.secretToken}), routes.users.logout);
 
 //Get all posts
 app.get('/post/all', jwt({secret: secret.secretToken}), tokenManager.verifyToken, routes.posts.listAll);
+
+//Get the post id
+app.get('/post/:id', routes.posts.read); 
 
 //Create a new post
 app.post('/post', jwt({secret: secret.secretToken}), tokenManager.verifyToken , routes.posts.create); 
